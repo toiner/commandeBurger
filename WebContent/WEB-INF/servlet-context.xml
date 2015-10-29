@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:aop="http://www.springframework.org/schema/aop" 
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+ 
+    <!-- DispatcherServlet Context: defines this servlet's request-processing 
+        infrastructure -->
+ 
+    <!-- Enables the Spring MVC @Controller programming model -->
+    <annotation-driven />
+ 
+    <!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+        up static resources in the ${webappRoot}/resources directory -->
+    <resources mapping="/resources/**" location="/resources/" />
+ 
+    <!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+        in the /WEB-INF/views directory -->
+    <beans:bean
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <beans:property name="prefix" value="/WEB-INF/views/" />
+        <beans:property name="suffix" value=".jsp" />
+    </beans:bean>
+ 
+    <beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <beans:property name="url"
+            value="jdbc:mysql://localhost:3306/hibernate_database" />
+        <beans:property name="username" value="root" />
+        <beans:property name="password" value="root" />
+    </beans:bean>
+ 
+    <!-- Hibernate 4 SessionFactory Bean definition -->
+    <beans:bean id="hibernate4AnnotatedSessionFactory"
+        class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <beans:property name="dataSource" ref="dataSource" />
+        <beans:property name="annotatedClasses">
+            <beans:list>
+                <beans:value>com.dodo.spring.model.Menu</beans:value>
+                <beans:value>com.dodo.spring.model.Burger</beans:value>
+                <beans:value>com.dodo.spring.model.User</beans:value>
+                <beans:value>com.dodo.spring.model.UserRole</beans:value>
+            </beans:list>
+        </beans:property>
+        <beans:property name="hibernateProperties">
+            <beans:props>
+                <beans:prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</beans:prop>
+                <beans:prop key="hibernate.show_sql">true</beans:prop>
+                <beans:prop key="hibernate.format_sql">true</beans:prop>
+                <beans:prop key="hibernate.hbm2ddl.auto">update</beans:prop>
+            </beans:props>
+        </beans:property>
+    </beans:bean>
+     
+    <beans:bean id="menuDAO" class="com.dodo.spring.dao.MenuDAOImpl">
+        <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </beans:bean>
+    <beans:bean id="menuService" class="com.dodo.spring.services.MenuServiceImpl">
+        <beans:property name="menuDAO" ref="menuDAO"></beans:property>
+    </beans:bean>
+    <beans:bean id="userDao" class="com.dodo.spring.dao.UserDaoImpl">
+        <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </beans:bean>
+    <beans:bean id="myUserDetailsService" class="com.dodo.spring.services.MyUserDetailsService">
+        <beans:property name="userDao" ref="userDao"></beans:property>
+    </beans:bean>
+    <context:component-scan base-package="com.dodo.spring" />
+     
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+     
+    <beans:bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </beans:bean>
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+      <tx:attributes>
+        <tx:method name="get*" read-only="true" />
+        <tx:method name="find*" read-only="true" />
+        <tx:method name="*" />
+      </tx:attributes>
+    </tx:advice>
+  
+    <aop:config>
+      <aop:pointcut id="userServicePointCut" expression="execution(* com.dodo.spring.services.*Service.*(..))" />
+      <aop:advisor advice-ref="txAdvice" pointcut-ref="userServicePointCut" />
+    </aop:config>
+    
+    <annotation-driven conversion-service="conversionService"/>
+    <beans:bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <beans:property name="converters">
+            <beans:list>
+              <beans:bean class="com.dodo.spring.converter.IdToBurgerConverter" />
+              <beans:bean class="com.dodo.spring.converter.BurgerToIdConverter" />
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+    <!--
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+      <property name="converters">
+          <list>
+              <bean class="com.dodo.spring.IdToBurgerConverter" />
+          </list>
+      </property>
+    </bean>
+    -->
+</beans:beans>
