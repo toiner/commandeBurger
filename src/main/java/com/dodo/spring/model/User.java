@@ -1,118 +1,171 @@
-/**
- * Paquet de définition
- */
 package com.dodo.spring.model;
 
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.hibernate.validator.constraints.NotEmpty;
 
-/**
-* Description :
-* Donnez une description textuelle du service fourni par cette classe.
-*
-* <TABLE>
-*   <TR>
-*     <TD><B>Attributs SVN :</B></TD>
-*     <TD>&nbsp;</TD>
-*   </TR>
-*   <TR>
-*     <TD><I>Nom du fichier :</I></TD>
-*     <TD>$HeadURL:   O:/Kernel5 Livraison/archives/kernel/tools/eclipse/config/ArchitectureImmobilierCodeTemplates.xml-arc  $</TD>
-*   </TR>
-*   <TR>
-*     <TD><I>Modifié le :</I></TD>
-*     <TD>$Date:   Apr 16 2009 11:52:40  $</TD>
-*   </TR>
-* </TABLE>
-*
-* @version : $Revision:   1.0  $
-* @author  : SOPRA Group - $Author:   tintin  $
-*
-*/
 @Entity
-@Table(name = "users", catalog = "test")
 public class User {
-  /** Version extraite du gestionnaire de configuration */
-  public static final String CLASS_VERSION = "$Revision:   1.0  $";
-  
-  private static final Logger logger = LoggerFactory.getLogger(User.class);
   
   @Id
-  @Column(name = "username", unique = true, nullable = false, length = 45)
-  private String username;
-  @Column(name = "password", nullable = false, length = 60)
+  @Column(name = "user_id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
+  
+  @NotEmpty
+  @Column(name = "SSO_ID", unique = true, nullable = false, length = 30)
+  private String ssoId;
+  
+  @NotEmpty
+  @Column(name = "PASSWORD", nullable = false, length = 100)
   private String password;
-  @Column(name = "enabled", nullable = false)
-  private boolean enabled;
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-  private Set<UserRole> userRole = new HashSet<UserRole>(0);
   
-  /**
-   * @return la valeur positionnée au sein de la propriété
-   */
-  public String getUsername() {
-    return username;
+  @NotEmpty
+  @Column(name = "FIRST_NAME", nullable = false, length = 30)
+  private String firstName;
+  
+  @NotEmpty
+  @Column(name = "LAST_NAME", nullable = false, length = 30)
+  private String lastName;
+  
+  @NotEmpty
+  @Column(name = "EMAIL", nullable = false, length = 30)
+  private String email;
+  
+  @NotEmpty
+  @Column(name = "STATE", nullable = false, length = 30)
+  private String state = State.ACTIVE.getState();
+  
+  @Column(name = "TYPE", length = 30, nullable = false)
+  private String type = UserProfileType.USER.getUserProfileType();
+  
+  /*@ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "USER_TO_USER_PROFILE",
+    joinColumns = { @JoinColumn(name = "USER_ID", nullable = false) },
+    inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID", nullable = false, updatable = false) })
+  private Set<UserProfile> userProfiles = new HashSet<UserProfile>(0);*/
+  
+  public int getId() {
+    return id;
   }
   
-  /**
-   * @param username valeur à positionner au sein de la propriété
-   */
-  public void setUsername(String username) {
-    logger.debug("setUsername() <-- " + username);
-    this.username = username;
+  public void setId(int id) {
+    this.id = id;
   }
   
-  /**
-   * @return la valeur positionnée au sein de la propriété
-   */
+  public String getSsoId() {
+    return ssoId;
+  }
+  
+  public void setSsoId(String ssoId) {
+    this.ssoId = ssoId;
+  }
+  
   public String getPassword() {
     return password;
   }
   
-  /**
-   * @param password valeur à positionner au sein de la propriété
-   */
   public void setPassword(String password) {
-    logger.debug("setPassword() <-- " + password);
     this.password = password;
   }
   
+  public String getFirstName() {
+    return firstName;
+  }
+  
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+  
+  public String getLastName() {
+    return lastName;
+  }
+  
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+  
+  public String getEmail() {
+    return email;
+  }
+  
+  public void setEmail(String email) {
+    this.email = email;
+  }
+  
+  public String getState() {
+    return state;
+  }
+  
+  public void setState(String state) {
+    this.state = state;
+  }
+  
+  /* public Set<UserProfile> getUserProfiles() {
+     return userProfiles;
+   }
+   
+   public void setUserProfiles(Set<UserProfile> userProfiles) {
+     this.userProfiles = userProfiles;
+   }*/
+  
   /**
    * @return la valeur positionnée au sein de la propriété
    */
-  public boolean isEnabled() {
-    return enabled;
+  public String getType() {
+    return type;
   }
   
   /**
-   * @param enabled valeur à positionner au sein de la propriété
+   * @param type valeur à positionner au sein de la propriété
    */
-  public void setEnabled(boolean enabled) {
-    logger.debug("setEnabled() <-- " + enabled);
-    this.enabled = enabled;
+  public void setType(String type) {
+    this.type = type;
   }
   
-  /**
-   * @return la valeur positionnée au sein de la propriété
-   */
-  public Set<UserRole> getUserRole() {
-    return userRole;
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + id;
+    result = (prime * result) + ((ssoId == null) ? 0 : ssoId.hashCode());
+    return result;
   }
   
-  /**
-   * @param userRole valeur à positionner au sein de la propriété
-   */
-  public void setUserRole(Set<UserRole> userRole) {
-    logger.debug("setUserRole() <-- " + userRole);
-    this.userRole = userRole;
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (!(obj instanceof User)) {
+      return false;
+    }
+    User other = (User) obj;
+    if (id != other.id) {
+      return false;
+    }
+    if (ssoId == null) {
+      if (other.ssoId != null) {
+        return false;
+      }
+    }
+    else if (!ssoId.equals(other.ssoId)) {
+      return false;
+    }
+    return true;
+  }
+  
+  @Override
+  public String toString() {
+    return "User [id=" + id + ", ssoId=" + ssoId + ", password=" + password
+           + ", firstName=" + firstName + ", lastName=" + lastName
+           + ", email=" + email + ", state=" + state + ", userProfile=" + type + "]";
   }
   
 }

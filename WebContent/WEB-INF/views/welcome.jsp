@@ -3,16 +3,16 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Admin page</title>
+	<title>Page de bienvenue</title>
 	<link href="<c:url value='/resources/css/bootstrap.css' />" rel="stylesheet"></link>
 	<link href="<c:url value='/resources/css/app.css' />" rel="stylesheet"></link>
 </head>
 <body>
 	<div class="success">
-		Cher <strong>${user}</strong>, Bienvenue sur la page d'administrateur.
-		<br/>
-		Veux-tu <a href="<c:url value='/newUser' />">Add Some Users</a> pour le fun	?	<br/>
-		<a href="<c:url value="/logout" />">Logout</a>
+		Bienvenue : ${greeting}
 	</div>
+	<div class="logo_burger">
+    <a href="/menus"><img alt="image du logo kry's burger" src="/commandeBurger/resources/img/logo.png"></a>
+  </div>
 </body>
 </html>

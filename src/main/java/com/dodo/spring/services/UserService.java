@@ -1,13 +1,13 @@
-package com.dodo.spring.dao;
+package com.dodo.spring.services;
 
 import com.dodo.spring.model.User;
 
-public interface UserDao {
+public interface UserService {
   
   void save(User user);
   
   User findById(int id);
   
-  User findBySSO(String sso);
+  User findBySso(String sso);
   
 }
