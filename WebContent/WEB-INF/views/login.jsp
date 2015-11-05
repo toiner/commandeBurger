@@ -34,12 +34,10 @@
 								<label class="input-group-addon" for="password"><i class="fa fa-lock"></i></label> 
 								<input type="password" class="form-control" id="password" name="password" placeholder="Entrer le mot de passe" required>
 							</div>
-							<input type="hidden" name="${_csrf.parameterName}"
-								value="${_csrf.token}" />
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 								
 							<div class="form-actions">
-								<input type="submit"
-									class="btn btn-block btn-primary btn-default" value="Log in">
+								<input type="submit" class="btn btn-block btn-primary btn-default" value="Log in">
 							</div>
 						</form>
 					</div>

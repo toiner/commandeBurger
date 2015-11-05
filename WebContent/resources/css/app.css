@@ -90,3 +90,18 @@ body, #mainWrapper, .form-control{
   margin-right: auto;
   text-align: center;
 }
+
+.titre-acces-denied{
+  position:fiexd;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  color: #E8E1E1;
+}
+
+.liens-retour{
+  position:fiexd;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}

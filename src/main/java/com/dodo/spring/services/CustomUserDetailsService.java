@@ -14,7 +14,7 @@ import com.dodo.spring.model.User;
 
 /**
 * Description :
-* Service permettant de gérer les droits utilisateurs et charger un utilisateur par son ssoID.
+* Service permettant de gérer les droits utilisateurs et charger un utilisateur par son ssoID=username.
 *
 * <TABLE>
 *   <TR>

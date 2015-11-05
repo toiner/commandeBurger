@@ -11,12 +11,13 @@
 <body>
 	<br/>
 	<br/>
-	<h1>Dear <strong>${user}</strong>, You are not authorized to access this page.</h1>
+	<h1 class="titre-acces-denied">Dear <strong>${user}</strong>, You are not authorized to access this page.</h1>
 	<br/>
-	<a href="<c:url value="/home" />">Go to home</a>  
-	<sec:authorize access="hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')">
-           OR  <a href="<c:url value="/logout" />">Logout</a>
-    </sec:authorize>
-	
+	<div class="liens-retour">
+		<a href="<c:url value="/home" />">Go to home</a>  
+		<sec:authorize access="hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')">
+	           OR  <a href="<c:url value="/logout" />">Logout</a>
+	  </sec:authorize>
+	</div>
 </body>
 </html>

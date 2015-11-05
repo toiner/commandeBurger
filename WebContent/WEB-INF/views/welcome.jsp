@@ -9,10 +9,13 @@
 </head>
 <body>
 	<div class="success">
-		Bienvenue : ${greeting}
+		Bienvenue : ${greeting}<br>
+		<a href="<c:url value="/admin" />">page administrateur</a><br>
+		<a href="<c:url value="/login" />">page de login</a><br>
+		<a href="<c:url value="/logout" />">Logout</a>
 	</div>
 	<div class="logo_burger">
-    <a href="/menus"><img alt="image du logo kry's burger" src="/commandeBurger/resources/img/logo.png"></a>
+    <a href="<c:url value="/menus" />"><img alt="image du logo kry's burger" src="/commandeBurger/resources/img/logo.png"></a>
   </div>
 </body>
 </html>
