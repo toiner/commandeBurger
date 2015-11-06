@@ -4,10 +4,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@ page session="false" %>
 <html>
 <head>
     <title>Commande de burger</title>
+    <link href="<c:url value='/resources/css/bootstrap.css' />"  rel="stylesheet"></link>
+		<link href="<c:url value='/resources/css/app.css' />" rel="stylesheet"></link>
+		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
     <style type="text/css">
         .tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;}
         .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#fff;}
@@ -16,12 +20,13 @@
     </style>
 </head>
 <body>
-<h1>
+<header class="en-tete-menu">
+<h1 class="titre-menu">
     Application de commande de burger
 </h1>
- 
+ </header>
 <c:url var="addAction" value="/menu/add" ></c:url>
- 
+ <div class="success">
 <form:form action="${addAction}" commandName="menu">
 
 <fieldset>
@@ -44,14 +49,24 @@
     
     <tr>
         <td>
-            <form:label path="nom">
-                <spring:message text="Nom"/><!-- affiche "Nom" dans la page -->
+                <label>Username:</label><!-- affiche "Nom" dans la page -->
+        </td>
+        <td>
+        <input readonly="readonly" disabled="disabled" contenteditable="false" value="<sec:authentication property="principal.username" />">
+        </td> 
+    </tr>
+    
+    <%-- <tr>
+        <td>
+            <form:label path="${user}">
+                <spring:message text="Username"/><!-- affiche "Nom" dans la page -->
             </form:label>
         </td>
         <td>
-            <form:input path="nom" /><!-- affiche un input text avec la valeur de name -->
+            <form:input path="${user}" readonly="true" disabled="true" /><!-- affiche un input text avec la valeur de name -->
+			<form:hidden path="${user}" />        
         </td> 
-    </tr>
+    </tr> --%>
     <tr>
         <td>
             <form:label path="burger">
@@ -59,7 +74,7 @@
             </form:label>
         </td>
         <td>
-            <form:select path="burger.nom">
+            <form:select path="burgerName">
 	            <form:option value="NONE" label="--- Selectionner le burger ---"/>
 	            <form:options items="${listeDesNomsDeBurger}"/>
 	            <%-- <form:options items="${listBurgers}" itemLabel="nom" itemValue="id"/> --%>
@@ -97,8 +112,10 @@
 </table>  
 </fieldset>
 </form:form>
+</div>
 <br>
-<h3>Liste des menu déjà choisis </h3>
+<h3 class="titre-menu">Liste des menus déjà choisis </h3>
+<div class="success">
 <c:if test="${!empty listMenus}">
     <table class="tg">
     <tr>
@@ -117,11 +134,12 @@
             <td>${menu.burgerName}</td>
             <td>${menu.boisson}</td>
             <td><fmt:formatDate value="${menu.dateDeCommande}" var="dateString" pattern="dd/MM/yyyy" />${dateString}</td>
-            <td><a href="<c:url value='/edit/${menu.id}' />" >Edit</a></td>
-            <td><a href="<c:url value='/remove/${menu.id}' />" >Delete</a></td>
+            <td><c:if test="${menu.nom == user}"><a href="<c:url value='/edit/${menu.id}' />" >Edit</a></c:if></td>
+            <td><c:if test="${menu.nom == user}"><a href="<c:url value='/remove/${menu.id}' />" >Delete</a></c:if></td>
         </tr>
     </c:forEach>
     </table>
 </c:if>
+</div>
 </body>
 </html>

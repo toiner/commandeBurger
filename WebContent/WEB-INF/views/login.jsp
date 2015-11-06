@@ -40,6 +40,8 @@
 								<input type="submit" class="btn btn-block btn-primary btn-default" value="Log in">
 							</div>
 						</form>
+						<div><a href="<c:url value='/newUser' />">Pas encore inscrit ? enregistrez-vous</a>
+						</div>
 					</div>
 				</div>
 			</div>

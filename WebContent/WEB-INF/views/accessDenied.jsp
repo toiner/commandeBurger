@@ -11,10 +11,10 @@
 <body>
 	<br/>
 	<br/>
-	<h1 class="titre-acces-denied">Dear <strong>${user}</strong>, You are not authorized to access this page.</h1>
+	<h1 class="titre-acces-denied">Cher <strong>${user}</strong>, Tu n'est pas authorisé à accéder à cette page.</h1>
 	<br/>
 	<div class="liens-retour">
-		<a href="<c:url value="/home" />">Go to home</a>  
+		<a href="<c:url value="/home" />">Retour acceuil</a>  
 		<sec:authorize access="hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')">
 	           OR  <a href="<c:url value="/logout" />">Logout</a>
 	  </sec:authorize>

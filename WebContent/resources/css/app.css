@@ -105,3 +105,9 @@ body, #mainWrapper, .form-control{
   margin-right: auto;
   text-align: center;
 }
+
+.titre-menu{
+   text-align: center;
+    color: white;
+    font-family: 'Lato', Arial, sans-serif;
+}
