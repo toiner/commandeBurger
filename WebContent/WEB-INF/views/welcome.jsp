@@ -14,6 +14,7 @@
 		<a href="<c:url value="/login" />">page de login</a><br>
 		<a href="<c:url value="/logout" />">Logout</a>
 	</div>
+	<p style="color: white; margin-left: auto; margin-right: auto; text-align: center; margin-top: 10%;">Cliquer sur l'image pour commander</p>
 	<div class="logo_burger">
     <a href="<c:url value="/menus" />"><img alt="image du logo kry's burger" src="/commandeBurger/resources/img/logo.png"></a>
   </div>

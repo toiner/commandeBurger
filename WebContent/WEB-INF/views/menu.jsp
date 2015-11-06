@@ -26,7 +26,7 @@
 </h1>
  </header>
 <c:url var="addAction" value="/menu/add" ></c:url>
- <div class="success">
+ <div class="bloc-burger">
 <form:form action="${addAction}" commandName="menu">
 
 <fieldset>
@@ -49,7 +49,7 @@
     
     <tr>
         <td>
-                <label>Username:</label><!-- affiche "Nom" dans la page -->
+             <label>Username:</label><!-- affiche "Nom" dans la page -->
         </td>
         <td>
         <input readonly="readonly" disabled="disabled" contenteditable="false" value="<sec:authentication property="principal.username" />">
@@ -82,7 +82,7 @@
 
            <!--  <form:input path="burger" />affiche un input text avec la valeur de burger -->
         </td>
-        <td><a href="http://krysburgers.fr/burgers">lien vers la description du burger (pour Floriane, un peu casse couille quand même)</a></td>
+        <td><a href="http://krysburgers.fr/burgers">lien vers la description du burger (pour Floriane)</a></td>
     </tr>
     <tr>
         <td>
@@ -115,7 +115,7 @@
 </div>
 <br>
 <h3 class="titre-menu">Liste des menus déjà choisis </h3>
-<div class="success">
+<div class="bloc-burger">
 <c:if test="${!empty listMenus}">
     <table class="tg">
     <tr>

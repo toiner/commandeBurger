@@ -3,6 +3,7 @@ package com.dodo.spring.dao;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -53,12 +54,23 @@ public class MenuDAOImpl implements MenuDAO {
     Date dateAComparer = (calendar.getTime());
     
     List<Menu> menusList = session.createQuery("from Menu").list();
-    //    for (Menu m : menusList) {
-    //      if (m.getDateDeCommande().after(dateAComparer)) {
-    //        menusList.remove(m);
-    //      }
-    //      logger.info("Menu List::" + m);
-    //    }
+    
+    Iterator<Menu> menusListIterator = menusList.iterator();
+    while (menusListIterator.hasNext()) {
+      Menu menu = menusListIterator.next();
+      if (menu.getDateDeCommande().before(dateAComparer)) {
+        menusListIterator.remove();
+        //menusList.remove(menu);
+      }
+      logger.info("Menu List::" + menu);
+      System.out.println(menu);
+    }
+    //        for (Menu m : menusList) {
+    //          if (m.getDateDeCommande().after(dateAComparer)) {
+    //            menusList.remove(m);
+    //          }
+    //          logger.info("Menu List::" + m);
+    //        }
     return menusList;
   }
   
