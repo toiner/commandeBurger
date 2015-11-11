@@ -37,7 +37,7 @@ public class HelloWorldController {
 	  private static final String[] tableauDeBurger = { "Véritable", "Véritable Hallal", "Mont d'or", "Savoyard", "Jurassien's", "Burger du moment",
 	                                                   "Spécial Hongrois" };
 	  private static final List<String> listeDesNomsDeBurger = Arrays.asList(tableauDeBurger);
-	  private static final String[] tableauDeBoisson = { "Coca", "Orangina", "7up", "Tropico", "Coca zero", "Dr pepper", "Eau (pour les faibles)", "Autre" };
+	  private static final String[] tableauDeBoisson = { "Coca", "Orangina", "Ice tea", "7up", "Tropico", "Coca zero", "Dr pepper", "Eau (pour les faibles)", "Autre" };
 	  private static final List<String> listeDesBoissons = Arrays.asList(tableauDeBoisson);
 	  private MenuService menuService;
 	  
@@ -63,21 +63,24 @@ public class HelloWorldController {
 	  
 	  //For add and update Menu both
 	  @RequestMapping(value = "/menu/add", method = RequestMethod.POST)
-	  public String addMenu(@ModelAttribute("menu") Menu m) {
-	    
-	    if (m.getId() == 0) {
-	      //new menu, add it
-	    	m.setNom(getPrincipal());
-	      this.menuService.addMenu(m);
-	    }
-	    else {
-	      //existing menu, call update
-	    	m.setNom(getPrincipal());
-	      this.menuService.updateMenu(m);
-	    }
-	    
-	    return "redirect:/menus";
-	  }
+	public String addMenu(@ModelAttribute("menu") Menu m, BindingResult result,
+			ModelMap model) {
+
+		if (result.hasErrors()) {
+			logger.error("Il y a des erreurs dans la validation du formulaire");
+		} else {
+			if (m.getId() == 0) {
+				// new menu, add it
+				m.setNom(getPrincipal());
+				this.menuService.addMenu(m);
+			} else {
+				// existing menu, call update
+				m.setNom(getPrincipal());
+				this.menuService.updateMenu(m);
+			}
+		}
+		return "redirect:/menus";
+	}
 	  
 	  @RequestMapping("/remove/{id}")
 	  public String removeMenu(@PathVariable("id") int id) {

@@ -1,17 +1,20 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@ page session="false" %>
-<html>
+<html ng-app="myApp">
 <head>
     <title>Commande de burger</title>
     <link href="<c:url value='/resources/css/bootstrap.css' />"  rel="stylesheet"></link>
 		<link href="<c:url value='/resources/css/app.css' />" rel="stylesheet"></link>
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
+		<script type="text/javascript" src=" http://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
+		<script src="resources/js/apps.js"></script>
+    	<script src="resources/js/controllers.js"></script>
     <style type="text/css">
         .tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;}
         .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#fff;}
@@ -20,10 +23,17 @@
     </style>
 </head>
 <body>
+<c:if test="${!empty user}">
+<div style="text-align:right;color: white;margin-right:5%;">
+Username : <sec:authentication property="principal.username" />
+<a href="<c:url value="/logout" />">Logout</a>
+</div>
+
+</c:if>
 <header class="en-tete-menu">
-<h1 class="titre-menu">
-    Application de commande de burger
-</h1>
+	<h1 class="titre-menu">
+	    Application de commande de burger
+	</h1>
  </header>
 <c:url var="addAction" value="/menu/add" ></c:url>
  <div class="bloc-burger">
@@ -47,14 +57,14 @@
     </tr>
     </c:if>
     
-    <tr>
+    <%-- <tr>
         <td>
              <label>Username:</label><!-- affiche "Nom" dans la page -->
         </td>
         <td>
         <input readonly="readonly" disabled="disabled" contenteditable="false" value="<sec:authentication property="principal.username" />">
         </td> 
-    </tr>
+    </tr> --%>
     
     <%-- <tr>
         <td>
@@ -81,6 +91,9 @@
             </form:select>
 
            <!--  <form:input path="burger" />affiche un input text avec la valeur de burger -->
+           <div class="has-error">
+				<form:errors path="burgerName" class="help-inline"/>
+			</div>
         </td>
         <td><a href="http://krysburgers.fr/burgers">lien vers la description du burger (pour Floriane)</a></td>
     </tr>
@@ -114,28 +127,30 @@
 </form:form>
 </div>
 <br>
-<h3 class="titre-menu">Liste des menus d�j� choisis </h3>
+<h3 class="titre-menu">Liste des menus déjà choisis </h3>
 <div class="bloc-burger">
 <c:if test="${!empty listMenus}">
     <table class="tg">
     <tr>
-        <th width="80">Menu ID</th>
+        <!-- <th width="80">Menu ID</th> -->
         <th width="120">Nom</th>
         <th width="120">Burger</th>
         <th width="120">Boisson</th>
         <th width="120">Date de commande</th>
         <th width="60">Edit</th>
         <th width="60">Delete</th>
+        <sec:authorize access="hasRole('ADMIN')"><th width="120">A payé</th></sec:authorize>
     </tr>
     <c:forEach items="${listMenus}" var="menu">
         <tr>
-            <td>${menu.id}</td>
+            <%-- <td>${menu.id}</td> --%>
             <td>${menu.nom}</td>
             <td>${menu.burgerName}</td>
             <td>${menu.boisson}</td>
             <td><fmt:formatDate value="${menu.dateDeCommande}" var="dateString" pattern="dd/MM/yyyy" />${dateString}</td>
             <td><c:if test="${menu.nom == user}"><a href="<c:url value='/edit/${menu.id}' />" >Edit</a></c:if></td>
             <td><c:if test="${menu.nom == user}"><a href="<c:url value='/remove/${menu.id}' />" >Delete</a></c:if></td>
+            <sec:authorize access="hasRole('ADMIN')"><td><input type="checkbox" name="paiement" value="paiement">10€</td></sec:authorize>
         </tr>
     </c:forEach>
     </table>

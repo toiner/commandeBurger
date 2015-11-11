@@ -5,6 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -16,22 +20,31 @@ public class User {
   private int id;
   
   @NotEmpty
+  @Size(min=2, max=30)
   @Column(name = "SSO_ID", unique = true, nullable = false, length = 30)
   private String ssoId;
   
   @NotEmpty
+  @Size(min=2, max=30)
   @Column(name = "PASSWORD", nullable = false, length = 100)
   private String password;
   
   @NotEmpty
+  @Size(min=2, max=30)
+  @Pattern(regexp = "[A-Za-z-]*")
   @Column(name = "FIRST_NAME", nullable = false, length = 30)
   private String firstName;
   
   @NotEmpty
+  @Size(min=2, max=30)
+  @Pattern(regexp = "[A-Za-z-]*")
   @Column(name = "LAST_NAME", nullable = false, length = 30)
   private String lastName;
   
   @NotEmpty
+  @Size(min=2, max=30)
+  @Email
+  @Pattern(regexp = "[0-9A-Za-z.-]*@soprasteria.com", message="veuillez utilisez une adresse mail soprasteria")
   @Column(name = "EMAIL", nullable = false, length = 30)
   private String email;
   
