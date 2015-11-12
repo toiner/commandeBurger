@@ -26,6 +26,7 @@
 									<p>Vous avez été déconnecté avec succes !.</p>
 								</div>
 							</c:if>
+							
 							<div class="input-group input-sm">
 								<label class="input-group-addon" for="username"><i class="fa fa-user"></i></label>
 								<input type="text" class="form-control" id="username" name="ssoId" placeholder="Entrer le nom d'utilisateur" required>
@@ -37,7 +38,8 @@
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 								
 							<div class="form-actions">
-								<input type="submit" class="btn btn-block btn-primary btn-default" value="Log in">
+							  <img alt="IdentifieToi" src="/commandeBurger/resources/img/IdentifieToi.png">
+								<input type="submit" class="btn btn-block btn-primary btn-default" value="Identifie-toi !">
 							</div>
 						</form>
 						<div><a href="<c:url value='/newUser' />">Pas encore inscrit ? enregistrez-vous</a>
